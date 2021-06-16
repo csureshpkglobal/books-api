@@ -1,10 +1,11 @@
 var https = require("https");
-const cors = require("cors");
-
 module.exports = function (app) {
-  app.options("*", cors());
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+  });
   // Get books by search keyword
-  app.get("/api/books/:searchword", cors(), function (req, res) {
+  app.get("/api/books/:searchword", function (req, res) {
     var BASE_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     var url = BASE_URL + req.params.searchword;
     var body = "";
